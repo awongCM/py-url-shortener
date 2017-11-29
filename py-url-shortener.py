@@ -1,4 +1,4 @@
-
+# TODOs - to place in a setup folder
 # Importing libraries
 from __future__ import with_statement
 import contextlib
@@ -28,8 +28,7 @@ def main():
 if __name__ == '__main__':
     main()
 
-
-##TODO - Url Shortener using Redis/Python
+##TODO - Next Build Url Shortener Service using Redis/Python
 
 # import redis
 
