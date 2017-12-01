@@ -1,32 +1,50 @@
 # TODOs - to place in a setup folder
 # Importing libraries
-from __future__ import with_statement
-import contextlib
-try:
-    from urllib.parse import urlencode
-except ImportError:
-    from urllib import urlencode
-try:
-    from urllib.request import urlopen
-except ImportError:
-    from urllib2 import urlopen
-import sys
+from math import floor
 
-# Function call to make shortened urls
-def make_tiny(url):
-    request_url = ('http://tinyurl.com/api-create.php?' +
-    urlencode({'url': url}))
-    with contextlib.closing(urlopen(request_url)) as response:
-        return response.read().decode('utf-8')
+import string
+import random
+import pdb
+import sys
+import base64
+
+# Basic implementation of shortened urls
+def shorten_url(url):
+    # jumbled them
+    prefix_url = 'http://rllytny.url/'
+
+    url_str_arr = list(url)
+    random.shuffle(url_str_arr)
+    
+    # get the last 10 items of the jumbled_url, assuming url is very longer than 20 chars
+    jumbled_url = ''.join(url_str_arr[-10:])
+
+    hashed_url = prefix_url + jumbled_url
+
+    encoded_url = encodeBase64(jumbled_url)
+    decoded_url = decodeBase64(encoded_url)
+
+    return hashed_url, url, encoded_url, decoded_url
+
+#  Base64 Encoding/Decoding functions
+def encodeBase64(toencode):    
+    result = base64.b64encode(toencode)
+    return result
+
+def decodeBase64(todecode):
+    result = base64.b64decode(todecode)
+    return result
 
 def main():
     urls = sys.argv[1:]
 
-    for tinyurl in map(make_tiny, urls):
-        print(tinyurl)
+    #print out their respective encoded and decoded strings
+    for shortened_url, raw_url, encoded_url, decoded_url in map(shorten_url, urls):
+        print("Original url: {0}, Shortened url: {1}, EncodedURL: {2}, DecodedURL: {3}".format(raw_url, shortened_url, encoded_url, decoded_url))
 
 if __name__ == '__main__':
     main()
+
 
 ##TODO - Next Build Url Shortener Service using Redis/Python
 
