@@ -1,0 +1,7 @@
+# Some awesome pythong urls to share
+https://github.com/nryoung/algorithms
+https://cryptography.io/en/latest/
+https://github.com/pytoolz/cytoolz/
+https://github.com/vinta/Haul
+https://scrapy.org/
+https://github.com/gruns/furl

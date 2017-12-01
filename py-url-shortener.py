@@ -1,5 +1,6 @@
 # TODOs - to place in a setup folder
 # Importing libraries
+# from __future__ import print_function
 from math import floor
 
 import string
@@ -17,7 +18,12 @@ def shorten_url(url):
     random.shuffle(url_str_arr)
     
     # get the last 10 items of the jumbled_url, assuming url is very longer than 20 chars
-    jumbled_url = ''.join(url_str_arr[-10:])
+    if len(url_str_arr) > 20:
+        shortened_url = url_str_arr[-10:]
+    else:
+        shortened_url = url_str_arr
+
+    jumbled_url = ''.join(shortened_url)
 
     hashed_url = prefix_url + jumbled_url
 
@@ -35,12 +41,26 @@ def decodeBase64(todecode):
     result = base64.b64decode(todecode)
     return result
 
+def readInputFile(text_file):
+    with open(text_file, 'r') as infile:
+        for line in infile:
+            # Ignore any comments in file
+            if '#' not in line[0]:
+                # print("URL read: {0}".format(line))
+                shortened_url, raw_url, encoded_url, decoded_url = shorten_url(line)
+                print("OriginalURL: {0}, NewURL: {1}, EncodedURL: {2}, DecodedURL: {3}".format(raw_url, shortened_url, encoded_url, decoded_url))
+                sys.stdout.write('.')
+    return
+
 def main():
     urls = sys.argv[1:]
 
     #print out their respective encoded and decoded strings
-    for shortened_url, raw_url, encoded_url, decoded_url in map(shorten_url, urls):
-        print("Original url: {0}, Shortened url: {1}, EncodedURL: {2}, DecodedURL: {3}".format(raw_url, shortened_url, encoded_url, decoded_url))
+    # for shortened_url, raw_url, encoded_url, decoded_url in map(shorten_url, urls):
+    #     print("Original url: {0}, Shortened url: {1}, EncodedURL: {2}, DecodedURL: {3}".format(raw_url, shortened_url, encoded_url, decoded_url))
+
+    #read text input file
+    readInputFile('urls-to-read.txt')
 
 if __name__ == '__main__':
     main()
