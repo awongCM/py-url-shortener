@@ -11,8 +11,9 @@ A varied implementation of url shortener service of my own, rather than piggy-ba
 TODO: Write history
 
 ## TODOS
-
-TODO: Write credits
+1. Base64 encoding or decodings
+2. Use Redis for storing key/value pairs for each urls parsed
+3. Also use redis to store every accessed shortened url in the redis database
 
 ## License
 
