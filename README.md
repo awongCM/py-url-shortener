@@ -4,7 +4,9 @@ TODO: Write a project description
 
 ## Usage
 
-A varied implementation of url shortener service of my own, rather than piggy-backing on other reputable url shortener service such as Bitly/TinyURL etc. This is for my educational/hobby purposes. 
+A varied implementation of url shortener service of my own, rather than piggy-backing on other reputable url shortener services such as Bitly/TinyURL etc. 
+
+In short, I'm just doing this for passionate fun.
 
 ## History
 
