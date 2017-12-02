@@ -10,7 +10,11 @@ import json
 # instantiate the local resider server
 redis_srv = redis.StrictRedis(host='localhost', port=6379, db=0)
 
-# global variables - if any
+# global variables for redis implementation
+redis_shortened_url_key_fmt = 'shortened.url:%s'
+redis_global_urls_list = 'global:urls'
+redis_shortened_url_visitors_list_fmt = 'visitors:%s:url'
+redis_shortened_url_clicks_counter_fmt = 'clicks:%s:url'
 
 # Actionable methods
 def shorten_url(long_url):
@@ -33,32 +37,45 @@ def shorten_url(long_url):
     encoded_url = encode_base64(jumbled_url)
     decoded_url = decode_base64(encoded_url)
 
-    redis_srv.set('shortened.url:%s' % shortened_url, long_url)
-    redis_srv.lpush('global:urls', shortened_url)
+    shortened_url_key = url_string_formatter(redis_shortened_url_key_fmt, shortened_url)
+
+    redis_srv.set(shortened_url_key, long_url)
+    redis_srv.lpush(redis_global_urls_list, shortened_url)
 
     return shortened_url, long_url, encoded_url, decoded_url
 
 def expand_url(shortened_url):
-    return redis_srv.get('shortened.url:%s' % shortened_url)
+    shortened_url_key = url_string_formatter(redis_shortened_url_key_fmt, shortened_url)
+    return redis_srv.get(shortened_url_key)
 
 def visit(shortened_url=None, ip_address=None, agent=None, referrer=None):
     visitorAgent = {'ip_address': ip_address, 'agent':agent, 'referrer':referrer}
-    redis_srv.lpush('visitors:%s:url' % shortened_url, json.dumps(visitorAgent))
-    return redis_srv.incr('clicks:%s:url' % shortened_url)
+    
+    url_visitors_list = url_string_formatter(redis_shortened_url_visitors_list_fmt, shortened_url)
+    redis_srv.lpush(url_visitors_list, json.dumps(visitorAgent))
+
+    url_clicks_counter = url_string_formatter(redis_shortened_url_clicks_counter_fmt, shortened_url)
+    return redis_srv.incr(url_clicks_counter)
 
 # Retrieve counter properties from Redis
 def clicks(shortened_url = None):
-    return redis_srv.get('clicks:%s:url' % shortened_url)
+    url_clicks_counter = url_string_formatter(redis_shortened_url_clicks_counter_fmt, shortened_url)
+    return redis_srv.get(url_clicks_counter)
 
 def recent_visitors(shortened_url):
     visitorAgents = []
-    for v in redis_srv.lrange('visitors:%s:url' % shortened_url, 0, -1):
+
+    url_visitors_list = url_string_formatter(redis_shortened_url_visitors_list_fmt, shortened_url)
+    for v in redis_srv.lrange(url_visitors_list, 0, -1):
         visitorAgents.append(json.loads(v))
     return visitorAgents
 
 def short_urls():
-    return redis_srv.lrange('global:urls', 0, 100)
+    return redis_srv.lrange(redis_global_urls_list, 0, 100)
 
+#Utility methods
+def url_string_formatter(str_fmt, url):
+    return str_fmt % url
 
 #  Base64 Encoding/Decoding functions
 def encode_base64(toencode):    
