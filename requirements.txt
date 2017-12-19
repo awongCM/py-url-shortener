@@ -1,0 +1,9 @@
+## Python/Redis URL Shortener Service ##
+
+###### Requirements without Version Specifiers ######
+string
+random
+redis
+sys
+base64
+json

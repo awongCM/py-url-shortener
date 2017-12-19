@@ -2,19 +2,19 @@
 
 ## Usage
 
-A varied implementation of url shortener service of my own, rather than piggy-backing on other reputable url shortener services such as Bitly/TinyURL etc. 
+A varied implementation of url shortener service of my own, rather than piggy-backing on other reputable url shortener services such as Bitly/TinyURL etc.
 
 In short, I'm just doing this for passionate fun.
 
 ## History
 
-TODO: Write history
+Ver 1.0: Implemented URL Shortener Service using Python and Redis, included Base64 encodings for string-based urls; 
 
 ## TODOS
-1. Base64 encoding or decodings
-2. Use Redis for storing key/value pairs for each urls parsed
-3. Also use redis to store every accessed shortened url in the redis database
-4. Add a trivial unit testing script for the url service
+1. ~~Implement Base64 encoding/decoding for shortened urls~~
+2. ~~Use Redis for storing key/value pairs for each shortened url parsed~~
+3. ~~Also use redis to store every accessed shortened url in the redis database~~
+4. Add a trivial unit testing script.
 
 ## License
 
