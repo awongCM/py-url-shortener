@@ -2,7 +2,6 @@
 import string
 import random
 import redis
-import sys
 import base64
 import json
 
