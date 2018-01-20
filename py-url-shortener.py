@@ -90,3 +90,53 @@ def encode_base64(str_to_encode):
 def decode_base64(str_to_decode):
     result = base64.b64decode(str_to_decode)
     return result
+
+'''
+Simulating web site traffic visits
+'''
+
+def visitors_visiting(url_shortener_service):
+
+    print('Visitors visiting...')
+
+    for i in range(0, 5):    
+        print('Visitor: %s' % i)
+        for short_url in url_shortener_service.short_urls():
+            decoded_url = decode_base64(short_url)
+            print('... %s' % decoded_url)
+            url_shortener_service.visit(decoded_url)
+
+    print('Recent Visitors')
+
+    for short_url in url_shortener_service.short_urls():
+        expanded_url = url_shortener_service.expand_url(short_url)
+        decoded_url = decode_base64(short_url)
+        print('... %s' % decoded_url)
+        visitor_agents = url_shortener_service.recent_visitors(decoded_url)
+        print('Total recent vistors for {0} (ie {1}) are {2}'.format(decoded_url, expanded_url, len(visitor_agents)))
+
+    return
+
+def readInputFile(text_file, url_shortener_service):
+    with open(text_file, 'r') as infile:
+        for line in infile:
+            # Ignore any comments in file
+            if '#' not in line[0]:
+                shortened_url, encoded_url = url_shortener_service.shorten_url(line)
+                expanded_url = url_shortener_service.expand_url(encoded_url)
+                print("ShortenedURL: {0}; ExpandedURL: {1}".format(shortened_url, expanded_url))
+                
+    return
+
+def main():
+    # inistantiate url_shorteer_service
+    url_shortener_service = UrlShortenerService()
+
+    #read text input file
+    readInputFile('urls-to-read.txt', url_shortener_service)
+
+    #Web visitor activity being tracking...
+    visitors_visiting(url_shortener_service)
+
+if __name__ == '__main__':
+    main()
