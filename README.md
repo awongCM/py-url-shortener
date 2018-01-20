@@ -15,6 +15,7 @@ Ver 1.0: Implemented URL Shortener Service using Python and Redis, included Base
 2. ~~Use Redis for storing key/value pairs for each shortened url parsed~~
 3. ~~Also use redis to store every accessed shortened url in the redis database~~
 4. Add a trivial unit testing script.
+5. Convert this tool into actual service using Flask.
 
 ## License
 
