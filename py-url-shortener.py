@@ -105,12 +105,10 @@ def decode_base64(str_to_decode):
     return result
 
 
-'''
-Simulating web site traffic visits
-'''
-
-
 def visitors_visiting(url_shortener_service):
+    """
+    Simulating web site traffic visits
+    """
 
     print('Visitors visiting...')
 
