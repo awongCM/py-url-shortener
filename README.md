@@ -11,6 +11,7 @@ In short, I'm just doing this for passionate fun.
 Ver 1.0: Implemented URL Shortener Service using Python and Redis, included Base64 encodings for string-based urls; 
 
 ## TODOS
+
 1. ~~Implement Base64 encoding/decoding for shortened urls~~
 2. ~~Use Redis for storing key/value pairs for each shortened url parsed~~
 3. ~~Also use redis to store every accessed shortened url in the redis database~~
